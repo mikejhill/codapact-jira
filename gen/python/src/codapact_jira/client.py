@@ -3,12 +3,12 @@
 # ruff: noqa: E501
 from __future__ import annotations
 
-import builtins  # noqa: F401
-from collections.abc import Iterator, Mapping, Sequence
+import builtins
+from collections.abc import Mapping, Sequence
 from functools import cache
 from importlib.resources import files
-from os import PathLike  # noqa: F401
-from typing import Any, Literal, cast  # noqa: F401
+from os import PathLike
+from typing import Any, cast
 
 from codapact.runtime import (
     AuthProvider,
@@ -19,10 +19,7 @@ from codapact.runtime import (
 )
 from codapact.runtime.arguments import UNSET, Unset, call_args
 
-from codapact.runtime.arguments import fields as _fields  # noqa: F401
-
 from . import types as _t
-
 
 PROTOCOLS: dict[str, Any] = {}
 """Custom protocol handlers (``module:attribute``) this client registers by default."""

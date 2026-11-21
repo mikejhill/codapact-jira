@@ -30,6 +30,12 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: security-and-quality
+          # CodeQL does not count PEP 695 ``type X = ...`` statements as definitions, so
+          # every alias the generated types.py exports would be reported as undefined.
+          config: |
+            query-filters:
+              - exclude:
+                  id: py/undefined-export
       - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
         with:
           category: /language:${{ matrix.language }}

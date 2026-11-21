@@ -7,7 +7,7 @@ import argparse
 from collections.abc import Sequence
 from typing import Any
 
-from codapact.runtime.cli import (  # noqa: F401
+from codapact.runtime.cli import (
     CliRuntime,
     binary_value,
     compact,

@@ -11,7 +11,7 @@
     }
   ],
   "docs": "Jira Cloud platform REST API documentation",
-  "model_version": 3,
+  "model_version": 4,
   "name": "The Jira Cloud platform REST API",
   "operations": [
     {
