@@ -1,0 +1,77 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: Exact revision to validate for a release
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  generated:
+    name: Generated code matches the contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Regenerate with the pinned Codapact
+        run: uv run codapact generate
+      - name: Fail on drift
+        run: |
+          git add -N .
+          git diff --exit-code --stat || { echo '::error::gen/ is stale. Run: uv run codapact generate'; exit 1; }
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.13', '3.14']
+    name: Python ${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python }}
+      - run: uv sync --locked
+      - run: uv run pytest -q
+
+  package:
+    name: Build and install the distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv build
+      - run: uvx --from twine==6.2.0 twine check --strict dist/*.whl dist/*.tar.gz
+      - name: Installed wheel runs
+        run: |
+          uv venv /tmp/wheel
+          # Locked runtime dependencies, so a stale index mirror can't change what is tested.
+          uv export --locked --no-dev --no-emit-project --no-hashes -o /tmp/runtime.txt
+          VIRTUAL_ENV=/tmp/wheel uv pip install -r /tmp/runtime.txt dist/*.whl
+          /tmp/wheel/bin/codapact-jira --version
+          # No credentials in CI: doctor must run and report them missing (exit 3).
+          rc=0; /tmp/wheel/bin/codapact-jira doctor --offline >/dev/null || rc=$?
+          [ "$rc" -eq 3 ]
+          /tmp/wheel/bin/codapact-jira issues get --issue-id-or-key DEMO-1 --dry-run
+          echo "# Hi" | /tmp/wheel/bin/codapact-jira issue-comments add-comment --issue-id-or-key DEMO-1 --markdown @- --dry-run

@@ -1,0 +1,26 @@
+{
+  "config_sha256": "56ecfbf8f4875968be787aaf5246b950ca94455e7ee57c78a4ade49be898abdb",
+  "files": {
+    "README.md": "61e722838c88b25b2eac28173f4bf43d87fc5bb70635dcba3437589c46c0fb0e",
+    "pyproject.toml": "0d85a5800860274e6f9d8f57d88f82f4a8d8859e8d200feec96a6180350dffbe",
+    "src/codapact_jira/__init__.py": "9da49f9f123deee161c300b88f2be8e9219f96467e08d259780e0edaa0f764a2",
+    "src/codapact_jira/__main__.py": "c66f72e21443a96f151e35aebc1c0711090aaf3eff12540bb4e3f67c2f06bc1c",
+    "src/codapact_jira/_docformat.py": "78456bcd975cd7f56103c69df6e19908090267a0b9b327facb1637c2b88e4dd5",
+    "src/codapact_jira/_model.json": "e613d7f8a488781520d800248c37ce6b997068dffe70d03ab79f5a0378f11beb",
+    "src/codapact_jira/cli.py": "14382a65f9863aa1f463e31b740cf9cd4b36ed7fce5c37af5017c72b53381b08",
+    "src/codapact_jira/client.py": "a5330bfee1f129a2255fa7b734d23bb4f2a62354c05ff46337c4c374c48476be",
+    "src/codapact_jira/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/codapact_jira/types.py": "6d3885d7fb35fa9abce29aee6b0d9f38224b8f057f8ea711d37eddba88600275",
+    "tests/e2e.json": "0f4499bf14d12b7a1beaf0f16ce0d9046a9bc00b0acb8c193635daa9d5585cd1",
+    "tests/test_e2e.py": "57140e281918be7a27eb4db8c7f84029134ca09501cdcbca23d7fa46ae2448f5"
+  },
+  "generated_at": "2026-11-21T20:06:51Z",
+  "generator": "codapact/0.12.0",
+  "source": {
+    "location": "openapi.json",
+    "sha256": "36a08f68d55c32f4e8dc257c1ca26f693d09e066a041dbf041ccb804dc52b971",
+    "type": "openapi",
+    "upstream": "https://dac-static.atlassian.com/cloud/jira/platform/swagger-v3.v3.json"
+  },
+  "version": 1
+}
