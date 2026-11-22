@@ -2,7 +2,7 @@
 name = "codapact-jira"
 version = "0.1.0"
 requires-python = ">=3.13"
-dependencies = ["codapact[keyring]>=0.14.0,<0.15"]
+dependencies = ["codapact[keyring]>=0.15.0,<0.16"]
 
 [project.scripts]
 codapact-jira = "codapact_jira.cli:main"
