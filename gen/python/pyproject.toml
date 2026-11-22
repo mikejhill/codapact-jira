@@ -2,7 +2,7 @@
 name = "codapact-jira"
 version = "0.1.0"
 requires-python = ">=3.13"
-dependencies = ["codapact[keyring]>=0.13.0,<0.14"]
+dependencies = ["codapact[keyring]>=0.14.0,<0.15"]
 
 [project.scripts]
 codapact-jira = "codapact_jira.cli:main"
@@ -14,5 +14,5 @@ dev = ["pytest>=8"]
 testpaths = ["tests"]
 
 [build-system]
-requires = ["uv_build>=0.11.1,<0.13"]
+requires = ["uv_build>=0.11.1,<0.14"]
 build-backend = "uv_build"
