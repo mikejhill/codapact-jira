@@ -74,16 +74,16 @@ wheels = [
 
 [[package]]
 name = "codapact"
-version = "0.16.0"
+version = "0.17.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "graphql-core" },
     { name = "pyyaml" },
     { name = "truststore" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8a/a4/c754cf4227990a94dce0fcae765c0d614dc6c8d45e3f8d711cfece8af0be/codapact-0.16.0.tar.gz", hash = "sha256:a28388597cb198925f338dee53b0102f1156665edc3df5be40b23ec2c3b73765", size = 626478, upload-time = "2026-11-22T23:36:36.44Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/24/6adcc04b542ebc66e8cb9bccf4eeaa3d5435872b9ad9f57afc2eb1250d77/codapact-0.17.0.tar.gz", hash = "sha256:33bd39389c117c89faef694c8276119349d7850f3aa1cc3ab8fe0f9ee5230d6a", size = 630896, upload-time = "2026-11-24T21:41:09.178Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/6b/b5ad566c9975c8eab91232b3938311fa8a6aed1607d5c1bac56ffe6f839f/codapact-0.16.0-py3-none-any.whl", hash = "sha256:a8ddfd293990616258b96ca386d40795907fe79444da40b289fe2f6ecb82e3a3", size = 238776, upload-time = "2026-11-22T23:36:34.642Z" },
+    { url = "https://files.pythonhosted.org/packages/54/bd/abeb0016bc35beb12f437bc29039c499bc110c5730a17bb742c2680a1303/codapact-0.17.0-py3-none-any.whl", hash = "sha256:1f73266293bff5e63e7d52de39e9ed20725f62111f3ad7a87266a902d486b4d4", size = 240570, upload-time = "2026-11-24T21:41:07.728Z" },
 ]
 
 [package.optional-dependencies]
@@ -112,12 +112,12 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "adflux", specifier = ">=0.4.0,<0.5" },
-    { name = "codapact", extras = ["keyring", "browser"], specifier = ">=0.16.0,<0.17" },
+    { name = "codapact", extras = ["keyring", "browser"], specifier = ">=0.17.0,<0.18" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "codapact", extras = ["keyring", "browser"], specifier = "==0.16.0" },
+    { name = "codapact", extras = ["keyring", "browser"], specifier = "==0.17.0" },
     { name = "pytest", specifier = ">=8" },
 ]
 

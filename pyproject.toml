@@ -9,7 +9,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Mike Hill" }]
 requires-python = ">=3.13"
-dependencies = ["codapact[keyring,browser]>=0.16.0,<0.17", "adflux>=0.4.0,<0.5"]
+dependencies = ["codapact[keyring,browser]>=0.17.0,<0.18", "adflux>=0.4.0,<0.5"]
 keywords = ["jira", "atlassian", "markdown", "adf", "cli", "api-client", "codapact"]
 classifiers = [
     "Environment :: Console",
@@ -30,7 +30,7 @@ Issues = "https://github.com/mikejhill/codapact-jira/issues"
 Generator = "https://github.com/mikejhill/codapact"
 
 [dependency-groups]
-dev = ["codapact[keyring,browser]==0.16.0", "pytest>=8"]
+dev = ["codapact[keyring,browser]==0.17.0", "pytest>=8"]
 
 [tool.uv.build-backend]
 module-name = "codapact_jira"
