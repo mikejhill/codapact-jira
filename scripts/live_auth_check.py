@@ -108,7 +108,7 @@ def patched(scenario: Scenario, code_key: str | None) -> Callable[..., str]:
                 if text not in scenario.page_errors:
                     scenario.page_errors.append(text)
         except error:
-            pass
+            pass  # the page moved on while it was read; the next poll reads the new one
         if outcome == "challenge" and code_key and scenario.codes_sent < 2:
             box = page.locator(
                 "input[autocomplete='one-time-code'], input[name*=otp i]"
