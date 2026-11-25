@@ -103,6 +103,14 @@ def patched(scenario: Scenario, code_key: str | None) -> Callable[..., str]:
         page: Any, login: BrowserLogin, filled: set[str], error: type[Exception]
     ) -> str:
         outcome = original(page, login, filled, error)
+        if not any(
+            step.startswith("(check script) webdriver") for step in scenario.steps
+        ):
+            try:  # whether the page can see an automated browser
+                flag = page.evaluate("() => navigator.webdriver")
+                scenario.steps.append(f"(check script) webdriver flag: {flag}")
+            except error:
+                pass  # the page moved on while it was read; the next poll reads it
         try:
             for text in page.evaluate(ERROR_TEXT):
                 if text not in scenario.page_errors:
@@ -172,6 +180,11 @@ def main() -> int:
     parser.add_argument(
         "--window", action="store_true", help="also run the window scenarios"
     )
+    parser.add_argument(
+        "--manual",
+        action="store_true",
+        help="only a window where you type the password and code yourself",
+    )
     args = parser.parse_args()
     site = secret("site").rstrip("/")
     email, password, code_key = secret("email"), secret("password"), secret("totp")
@@ -188,36 +201,51 @@ def main() -> int:
         return path
 
     try:
-        main_profile = profile("main")
-        first = Scenario("new device: email, password, 2FA (headless)", "signed in")
-        run(first, login, main_profile, code_key=code_key)
-        results.append(first)
-        again = Scenario("still signed in: no typing", "signed in")
-        run(again, login, main_profile)
-        results.append(again)
-        clear_site_cookies(main_profile, login.cookies)
-        sso = Scenario(
-            "site cookie expired: renew from the identity session", "signed in"
-        )
-        run(sso, login, main_profile)
-        results.append(sso)
-        no_code = Scenario("new device without a code: stops at 2FA", "no session")
-        run(no_code, login, profile("no-code"), timeout=30.0)
-        results.append(no_code)
-        wrong = Scenario("wrong password: sent once, stops", "no session")
-        run(
-            wrong,
-            replace(login, password=password + "-wrong"),
-            profile("wrong"),
-            timeout=30.0,
-        )
-        results.append(wrong)
-        if args.window:
-            window = Scenario(
-                "window: email and password typed, code entered", "signed in"
+        if args.manual:
+            # tells Atlassian refusing automation apart from refusing codapact's typing
+            manual = Scenario(
+                "window: codapact types the email only, you type password and code",
+                "signed in",
             )
-            run(window, login, profile("window"), headless=False, code_key=code_key)
-            results.append(window)
+            run(
+                manual,
+                replace(login, password=""),
+                profile("manual"),
+                headless=False,
+                timeout=180.0,
+            )
+            results.append(manual)
+        else:
+            main_profile = profile("main")
+            first = Scenario("new device: email, password, 2FA (headless)", "signed in")
+            run(first, login, main_profile, code_key=code_key)
+            results.append(first)
+            again = Scenario("still signed in: no typing", "signed in")
+            run(again, login, main_profile)
+            results.append(again)
+            clear_site_cookies(main_profile, login.cookies)
+            sso = Scenario(
+                "site cookie expired: renew from the identity session", "signed in"
+            )
+            run(sso, login, main_profile)
+            results.append(sso)
+            no_code = Scenario("new device without a code: stops at 2FA", "no session")
+            run(no_code, login, profile("no-code"), timeout=30.0)
+            results.append(no_code)
+            wrong = Scenario("wrong password: sent once, stops", "no session")
+            run(
+                wrong,
+                replace(login, password=password + "-wrong"),
+                profile("wrong"),
+                timeout=30.0,
+            )
+            results.append(wrong)
+            if args.window:
+                window = Scenario(
+                    "window: email and password typed, code entered", "signed in"
+                )
+                run(window, login, profile("window"), headless=False, code_key=code_key)
+                results.append(window)
     finally:
         runtime.sign_in_headless = original
         for path in ROOT.glob("profile-*"):
