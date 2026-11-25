@@ -1,10 +1,10 @@
 {
   "config_sha256": "56ecfbf8f4875968be787aaf5246b950ca94455e7ee57c78a4ade49be898abdb",
   "files": {
-    "README.md": "3bdeac41f3b662a3de518b43545324cf4f5f81bf5c52c73a6b92f326d3eafefb"
+    "README.md": "9da3caabf1a6f5f2dae41906fa9e6d72d9572714b34aa279c632a33d2c08202d"
   },
-  "generated_at": "2026-11-25T01:30:21Z",
-  "generator": "codapact/0.17.1",
+  "generated_at": "2026-11-25T20:29:01Z",
+  "generator": "codapact/0.17.2",
   "source": {
     "location": "openapi.json",
     "sha256": "36a08f68d55c32f4e8dc257c1ca26f693d09e066a041dbf041ccb804dc52b971",
