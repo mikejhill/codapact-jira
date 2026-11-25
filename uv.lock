@@ -74,16 +74,16 @@ wheels = [
 
 [[package]]
 name = "codapact"
-version = "0.17.2"
+version = "0.17.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "graphql-core" },
     { name = "pyyaml" },
     { name = "truststore" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/06/5b/070a7142b083e3b3df776c0a35c3f5a775a12b1da7fcb7ebf1691f8a3af9/codapact-0.17.2.tar.gz", hash = "sha256:cba2098d9e52cac7b47fac4d81ecd6fe6a3e4de52285ca227638328d44c5fb14", size = 638751, upload-time = "2026-11-25T20:27:42.342Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/41/bb575b1f5612664ac4e325f6ea95ee758a05f60c88f54a116938280be9be/codapact-0.17.3.tar.gz", hash = "sha256:aeb44c0b959188fd09692d7733180af01f20201b761c285374b56fc5fdeda52d", size = 642055, upload-time = "2026-11-25T22:19:19.782Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/25/4c/a42d175d1fa8570b2fa085e7801f7e75ee37985eb74e3ebe62d75522cc4d/codapact-0.17.2-py3-none-any.whl", hash = "sha256:0ce47c622225fb4ecc13e7477211da06e777bec5ef258774dfafacc89b193e2a", size = 242069, upload-time = "2026-11-25T20:27:40.805Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/7c/8a0bb9da5f056db422a7b91602042c2b97f260ff4c88f28a61c945494998/codapact-0.17.3-py3-none-any.whl", hash = "sha256:dd239fef54bd4506e82ea934de78a3bc96493337e69022ea06fe7e565812197e", size = 243728, upload-time = "2026-11-25T22:19:18.502Z" },
 ]
 
 [package.optional-dependencies]
@@ -112,12 +112,12 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "adflux", specifier = ">=0.4.0,<0.5" },
-    { name = "codapact", extras = ["keyring", "browser"], specifier = ">=0.17.2,<0.18" },
+    { name = "codapact", extras = ["keyring", "browser"], specifier = ">=0.17.3,<0.18" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "codapact", extras = ["keyring", "browser"], specifier = "==0.17.2" },
+    { name = "codapact", extras = ["keyring", "browser"], specifier = "==0.17.3" },
     { name = "pytest", specifier = ">=8" },
 ]
 
