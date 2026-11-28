@@ -201,12 +201,23 @@ def watch(scenario: Scenario, page: Any, redact: Redact) -> None:
         if request.resource_type in STATIC:
             return
         line = f"{stamp()} < {response.status} {request.method} {response.url.split('?')[0]}"
+        if request.method not in ("GET", "HEAD", "OPTIONS"):
+            # edge and WAF verdicts (x-amzn-waf-action and the like) say who answered
+            edge = {
+                k: v
+                for k, v in response.headers.items()
+                if k.startswith(("x-amzn", "x-amz-cf", "atl-", "x-envoy", "server"))
+                and "token" not in k
+            }
+            if edge:
+                line += f"\n      response headers {json.dumps(edge)}"
         scenario.network.append(line)
         if request.method not in ("GET", "HEAD", "OPTIONS"):
             scenario.pending.append((len(scenario.network) - 1, response))
 
     context.on("request", on_request)
     context.on("response", on_response)
+    page.bring_to_front()  # a second window can open behind the terminal
     scenario.steps.append(
         "(check script) user agent: " + str(page.evaluate("() => navigator.userAgent"))
     )
