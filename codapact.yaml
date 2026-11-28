@@ -1,0 +1,66 @@
+version: 1
+source:
+  type: openapi
+  path: openapi.json
+  upstream: https://dac-static.atlassian.com/cloud/jira/platform/swagger-v3.v3.json
+shape:
+  - select:
+      exclude: [searchForIssuesUsingJql, searchForIssuesUsingJqlPost]   # removed by Atlassian
+  - rename:
+      operations:
+        search_and_reconsile_issues_using_jql: search_issues
+        search_and_reconsile_issues_using_jql_post: search_issues_post
+  - group: {by: tag}
+  - auth: {schemes: {basic: basic}}       # email + API token (the contract's OAuth needs an app)
+  - auth: {schemes: {session: {custom: "Browser sign-in"}}, alternative: true}
+cli:
+  env_prefix: JIRA
+  extensions: ["codapact_jira._docformat:extension"]
+  auth:
+    basic:
+      check: getCurrentUser
+      docs: >-
+        Use your Atlassian account email as the username and an API token as the password
+        (create one at https://id.atlassian.com/manage-profile/security/api-tokens).
+    session:
+      check: getCurrentUser
+      docs: >-
+        For sites where API tokens are disabled: signs in through a browser window and
+        sends the session cookies.
+      browser:
+        login_url: "{base_url}/jira"
+        cookies: [tenant.session.token]
+        headers: {X-Atlassian-Token: no-check}
+        signin_hosts: ["id.atlassian.com", "*.okta.com"]
+readme:
+  name: Jira Cloud
+  docs: https://developer.atlassian.com/cloud/jira/platform/rest/v3/
+  repository: mikejhill/codapact-jira
+  examples:
+    - "issues get --issue-id-or-key PROJ-1 --query fields.description"
+    - "issue-search search-issues --jql 'project = PROJ ORDER BY created DESC' --fields summary,status"
+    - "issues create --fields '{\"project\":{\"key\":\"PROJ\"},\"issuetype\":{\"name\":\"Task\"},\"summary\":\"Fix login\"}' --markdown @description.md"
+    - "issue-comments add-comment --issue-id-or-key PROJ-1 --markdown 'Deployed :white_check_mark:'"
+  sections:
+    - title: Markdown
+      body: |
+        Rich text is Markdown both ways. `--markdown TEXT|@file|@-` sets an issue description,
+        a comment or a worklog comment; a Markdown string for `description`, `environment`,
+        a comment `body` or a worklog `comment` inside JSON arguments is converted too, and every
+        ADF document in a response comes back as Markdown. `--doc-format adf` (or
+        `JIRA_DOC_FORMAT=adf`) keeps raw ADF. The dialect (panels as `> [!NOTE]`, `:status[DONE]{color=green}`,
+        mentions, Jira emoji such as `:tick:`) is documented by `uvx adflux syntax`.
+    - title: Sign-in
+      body: |
+        Set `--base-url` (or `JIRA_BASE_URL`) to your site, for example
+        `https://your-site.atlassian.net`. An API token is preferred: `codapact-jira auth login
+        --scheme basic` with your Atlassian email and a token from
+        https://id.atlassian.com/manage-profile/security/api-tokens. Where API tokens are
+        disabled, `codapact-jira auth login --scheme session` opens a browser window for
+        single sign-on, saves the session cookies in your keyring, and renews them without a
+        window until your identity provider asks for you again. Browser sign-in needs Chrome,
+        Edge or `playwright install chromium`.
+targets:
+  - {name: python, output: gen/python, options: {package: codapact_jira, distribution: codapact-jira, include: {_docformat.py: handlers/docformat.py}}}
+  - {name: python-cli, output: gen/python}
+  - {name: python-readme, output: .}

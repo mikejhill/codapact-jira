@@ -1,0 +1,15 @@
+{
+  "config_sha256": "56ecfbf8f4875968be787aaf5246b950ca94455e7ee57c78a4ade49be898abdb",
+  "files": {
+    "README.md": "71adc970c947122e7dd3775ade15bec21976183423c83a154e2008d678df21e5"
+  },
+  "generated_at": "2026-11-25T22:20:23Z",
+  "generator": "codapact/0.17.3",
+  "source": {
+    "location": "openapi.json",
+    "sha256": "36a08f68d55c32f4e8dc257c1ca26f693d09e066a041dbf041ccb804dc52b971",
+    "type": "openapi",
+    "upstream": "https://dac-static.atlassian.com/cloud/jira/platform/swagger-v3.v3.json"
+  },
+  "version": 1
+}
